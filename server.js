@@ -43,3 +43,22 @@ app.post("/api/notes", (req, res) => {
     });
 });
 
+
+
+app.delete("/api/notes/:id", function (req, res) {
+    let deleteNote = req.params.id;
+    fs.readFile("db/db.json", (err, data) => {
+        if (err) throw err;
+        let notes = JSON.parse(data);
+        for (let i = 0; i < notes.length; i++) {
+            if(notes[i].id === deleteNote) {
+                notes.splice(i, 1);
+                fs.writeFile("db/db.json", JSON.stringify(notes), (err) => {
+                    if (err) throw err;
+                    return res.json(notes);
+                });
+            }
+        }
+    });
+});
+
