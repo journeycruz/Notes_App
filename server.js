@@ -11,22 +11,22 @@ app.use(express.json());
 // CREATE A PATH TO PUBLIC FOLDER THAT HOLDS ASSETS AND HTML FILES //
 app.use(express.static(path.join(__dirname, "public")));
 
-
+// SEND RESPONSE TO INDEX.HTML
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
-
+// SEND NOTES TO NOTES.HTML
 app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "public/notes.html"));
 });
 
-
-app.get("/api/notes", function (req, res) {
+// SAVED NOTES GO TO DB.JSON
+app.get("/api/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "db/db.json"));
 });
 
-
+// POST NEW NOTE
 app.post("/api/notes", (req, res) => {
     let newNote = req.body;
 
@@ -44,8 +44,8 @@ app.post("/api/notes", (req, res) => {
 });
 
 
-
-app.delete("/api/notes/:id", function (req, res) {
+// DELETE NOTE
+app.delete("/api/notes/:id", (req, res) => {
     let deleteNote = req.params.id;
     fs.readFile("db/db.json", (err, data) => {
         if (err) throw err;
@@ -62,4 +62,5 @@ app.delete("/api/notes/:id", function (req, res) {
     });
 });
 
+// SHOW EXPRESS IS LISTENING ON PORT __ 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
